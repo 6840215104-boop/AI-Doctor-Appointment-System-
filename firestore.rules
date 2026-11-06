@@ -1,0 +1,70 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Connection health check doc
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function isValidDepartment(data) {
+      return data.name is string && data.name.size() <= 100;
+    }
+
+    function isValidDoctor(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.departmentId is string && data.departmentId.size() <= 64;
+    }
+
+    function isValidPatient(data) {
+      return data.name is string && data.name.size() <= 100 &&
+             data.phone is string && data.phone.size() <= 30;
+    }
+
+    function isValidAppointment(data) {
+      return data.patientName is string && data.patientName.size() <= 100 &&
+             data.doctorId is string && data.doctorId.size() <= 64 &&
+             data.appointmentDate is string && data.appointmentDate.size() <= 20 &&
+             data.appointmentTime is string && data.appointmentTime.size() <= 30 &&
+             data.status is string && data.status.size() <= 30;
+    }
+
+    // Departments Collection
+    match /departments/{departmentId} {
+      allow read: if true;
+      allow create, update: if isValidId(departmentId) && isValidDepartment(request.resource.data);
+      allow delete: if isValidId(departmentId);
+    }
+
+    // Doctors Collection
+    match /doctors/{doctorId} {
+      allow read: if true;
+      allow create, update: if isValidId(doctorId) && isValidDoctor(request.resource.data);
+      allow delete: if isValidId(doctorId);
+    }
+
+    // Patients Collection
+    match /patients/{patientId} {
+      allow read: if true;
+      allow create, update: if isValidId(patientId) && isValidPatient(request.resource.data);
+      allow delete: if isValidId(patientId);
+    }
+
+    // Appointments Collection
+    match /appointments/{appointmentId} {
+      allow read: if true;
+      allow create, update: if isValidId(appointmentId) && isValidAppointment(request.resource.data);
+      allow delete: if isValidId(appointmentId);
+    }
+
+    // Catch-all deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "Department": {
+      "title": "Department",
+      "description": "Hospital medical department",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "nameEn": { "type": "string", "maxLength": 100 },
+        "code": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "building": { "type": "string", "maxLength": 50 },
+        "floor": { "type": "string", "maxLength": 20 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["name", "code", "building", "floor"]
+    },
+    "Doctor": {
+      "title": "Doctor",
+      "description": "Hospital medical specialist",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "departmentId": { "type": "string", "maxLength": 64 },
+        "departmentName": { "type": "string", "maxLength": 100 },
+        "specialization": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "roomNumber": { "type": "string", "maxLength": 20 },
+        "availableDays": { "type": "array" },
+        "availableTimeSlots": { "type": "array" },
+        "maxPatientsPerDay": { "type": "number" },
+        "status": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["name", "departmentId", "departmentName", "specialization", "roomNumber"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Fictional patient record for educational demonstration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "hn": { "type": "string", "maxLength": 30 },
+        "name": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "age": { "type": "number" },
+        "gender": { "type": "string", "maxLength": 20 },
+        "bloodType": { "type": "string", "maxLength": 10 },
+        "allergies": { "type": "string", "maxLength": 200 },
+        "emergencyContact": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["hn", "name", "phone", "age", "gender"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Patient hospital appointment with conflict prevention",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "patientId": { "type": "string", "maxLength": 64 },
+        "patientName": { "type": "string", "maxLength": 100 },
+        "patientPhone": { "type": "string", "maxLength": 30 },
+        "patientAge": { "type": "number" },
+        "departmentId": { "type": "string", "maxLength": 64 },
+        "departmentName": { "type": "string", "maxLength": 100 },
+        "doctorId": { "type": "string", "maxLength": 64 },
+        "doctorName": { "type": "string", "maxLength": 100 },
+        "appointmentDate": { "type": "string", "maxLength": 20 },
+        "appointmentTime": { "type": "string", "maxLength": 30 },
+        "reason": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "maxLength": 30 },
+        "aiRecommendedDept": { "type": "string", "maxLength": 100 },
+        "aiRecommendationNote": { "type": "string", "maxLength": 500 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": [
+        "patientName",
+        "patientPhone",
+        "departmentId",
+        "departmentName",
+        "doctorId",
+        "doctorName",
+        "appointmentDate",
+        "appointmentTime",
+        "reason",
+        "status"
+      ]
+    }
+  },
+  "firestore": {
+    "/departments/{departmentId}": {
+      "schema": "Department",
+      "description": "Hospital medical departments"
+    },
+    "/doctors/{doctorId}": {
+      "schema": "Doctor",
+      "description": "Doctor directory and clinic details"
+    },
+    "/patients/{patientId}": {
+      "schema": "Patient",
+      "description": "Sample educational patient records"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Doctor appointments and scheduling status"
+    }
+  }
+}

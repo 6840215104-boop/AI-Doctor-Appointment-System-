@@ -1,0 +1,6 @@
+{
+  "name": "AI Doctor Appointment System",
+  "description": "ระบบนัดหมายแพทย์และแนะนำแผนกด้วย AI อัจฉริยะ สำหรับโรงพยาบาล พร้อมการบริหารจัดการแพทย์ คลินิก และการจองคิวตรวจ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
